@@ -1,0 +1,74 @@
+using _365EJSC.ERP.Application.Requests.Define.HelpdeskCatalog;
+using _365EJSC.ERP.Application.Validators.Define.HelpdeskCatalog;
+using _365EJSC.ERP.Contract.DependencyInjection.Extensions;
+using _365EJSC.ERP.Contract.Shared;
+using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.Base;
+using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.Define;
+using _365EJSC.ERP.Contract.Abstractions;
+using _365EJSC.ERP.Contract.Exceptions;
+using _365EJSC.ERP.Contract.Enumerations;
+using MediatR;
+using Entity = _365EJSC.ERP.Domain.Entities.Define.HelpdeskCatalog;
+
+namespace _365EJSC.ERP.Application.UserCases.Define.HelpdeskCatalog
+{
+    /// <summary>
+    /// Handler for <see cref="DeleteHelpdeskCatalogRequest"/> 
+    /// </summary>
+    public class DeleteHelpdeskCatalogHandler : IRequestHandler<DeleteHelpdeskCatalogRequest, Result<object>>
+    {
+        // Repository handle data access of <see cref="Entity"/>>
+        private readonly IHelpdeskCatalogSqlRepository helpdeskCatalogRepo;
+        // Unit of work to handle transaction
+        private readonly ISqlUnitOfWork unitOfWork;
+
+        /// <summary>
+        /// Constructor of <see cref="DeleteHelpdeskCatalogHandler"/>, inject needed dependency
+        /// </summary>
+        public DeleteHelpdeskCatalogHandler(IHelpdeskCatalogSqlRepository helpdeskCatalogRepo, ISqlUnitOfWork unitOfWork)
+        {
+           this.helpdeskCatalogRepo = helpdeskCatalogRepo;
+           this.unitOfWork = unitOfWork;
+        }
+
+        /// <summary>
+        /// Handle <see cref="DeleteHelpdeskCatalogRequest"/>, Delete the <see cref="Entity"/> base on data <see cref="DeleteHelpdeskCatalogRequest"/>
+        /// and save to database
+        /// </summary>
+        /// <param name="request">Request to handle</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns><see cref="Result{TModel}"/> with success status</returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<Result<object>> Handle(DeleteHelpdeskCatalogRequest request, CancellationToken cancellationToken)
+        {
+            // Create validator and validate request
+            var validator = new DeleteHelpdeskCatalogValidator();
+            validator.ValidateAndThrow(request);
+
+            // Find HelpdeskCatalog from database, throw NotFoundException when not found
+            var helpdeskCatalog = await helpdeskCatalogRepo.FindByIdAsync((int)request.Id, true, cancellationToken);
+            if(helpdeskCatalog == null)
+                CustomException.ThrowNotFoundException(typeof(Entity), MsgCode.ERR_DEFINE_HELPDESK_CATALOG_ID_NOT_FOUND);
+
+            // Begin transaction
+            using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                // Marked HelpdeskCatalog as Delete state
+                helpdeskCatalogRepo.Remove(helpdeskCatalog);
+                // Save data to database
+                await unitOfWork.SaveChangesAsync(cancellationToken);
+
+                 // Commit transaction
+                 transaction.Commit();
+                return Result<object>.Ok();
+            }
+            catch (Exception)
+            {
+                 // Rollback transaction if any exception happened, then throw exception
+                 transaction.Rollback();
+                 throw;
+            }
+        }
+    }
+}

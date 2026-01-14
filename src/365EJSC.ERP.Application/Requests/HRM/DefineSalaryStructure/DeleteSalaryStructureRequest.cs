@@ -1,0 +1,12 @@
+﻿using _365EJSC.ERP.Contract.Abstractions;
+
+namespace _365EJSC.ERP.Application.Requests.HRM.DefineSalaryStructure
+{
+    /// <summary>
+    /// Request to delete SalaryStructure, contain position id
+    /// </summary>
+    public record DeleteSalaryStructureRequest : ICommand
+    {
+        public int? Id { get; set; }
+    }
+}

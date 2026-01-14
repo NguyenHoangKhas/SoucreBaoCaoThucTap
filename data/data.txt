@@ -1,0 +1,140 @@
+
+--#10 <hrm_define_salary_structure>
+
+CREATE TABLE hrm_define_salary_structure (
+    sal_str_id INT PRIMARY KEY IDENTITY(1,1),
+    ss_code VARCHAR(32),
+    ss_name NVARCHAR(256) NOT NULL
+);
+
+--#11 <hrm_define_contract_type>
+
+CREATE TABLE hrm_define_contract_type (
+    con_typ_id INT PRIMARY KEY IDENTITY(1,1),
+    ct_code VARCHAR(32),
+    ct_name NVARCHAR(256) NOT NULL
+);
+
+--#13 <hrm_degree>
+CREATE TABLE hrm_degree (
+    degree_id INT PRIMARY KEY IDENTITY(1,1),
+    deg_name NVARCHAR(256) NOT NULL
+);
+
+
+-- [#15.1] CREATE TABLE command
+CREATE TABLE hrm_employee_role (
+    emp_role_id INT PRIMARY KEY IDENTITY(1,1),
+    er_code VARCHAR(32),
+    er_name NVARCHAR(256) NOT NULL,
+);
+
+-- 17
+CREATE TABLE hrm_bank (
+    bank_id INT PRIMARY KEY NOT NULL IDENTITY(1,1),
+    bnk_name NVARCHAR(24) NOT NULL
+);
+
+-- 27
+CREATE TABLE hrm_employee (
+    employee_id INT PRIMARY KEY IDENTITY(1,1),
+    emp_citizen_identity VARCHAR(24) NOT NULL,
+    emp_tax_code VARCHAR(24) NOT NULL,
+    emp_code VARCHAR(24) NOT NULL,
+    emp_first_name NVARCHAR(128) NOT NULL,
+    emp_last_name NVARCHAR(128) NOT NULL,
+    emp_gender BIT NOT NULL DEFAULT 0, -- 0: Nam, 1: Nữ
+    emp_birthday DATE NOT NULL,
+    emp_place_of_birth INT NOT NULL,
+    emp_image VARCHAR(128) NOT NULL,
+    emp_tel VARCHAR(64) NOT NULL,
+    emp_email VARCHAR(64),
+    emp_education_level VARCHAR(12), -- Trình độ văn hóa (12/12)
+    emp_joined_date INT,
+    degree_id INT NOT NULL,
+    tra_maj_id INT NOT NULL,
+    emp_account_number VARCHAR(24),
+    bank_id INT,
+    nation_id INT NOT NULL,
+    religion_id INT NOT NULL,
+    marital_id INT NOT NULL,
+    emp_role_id INT,
+    country_id VARCHAR(32),
+    emp_place_of_residence_address NVARCHAR(128),
+    emp_place_of_residence_ward_id INT,
+    is_actived INT NOT NULL DEFAULT 0, -- 0: chưa xử lý hồ sơ
+    
+    -- Indexes
+    INDEX idx_hrmemp_emp_citizen_identity (emp_citizen_identity),
+    INDEX idx_hrmemp_emp_tax_code (emp_tax_code),
+    INDEX idx_hrmemp_emp_code (emp_code),
+    INDEX idx_hrmemp_degree_id (degree_id),
+    INDEX idx_hrmemp_tra_maj_id (tra_maj_id),
+    INDEX idx_hrmemp_nation_id (nation_id),
+    INDEX idx_hrmemp_religion_id (religion_id),
+    INDEX idx_hrmemp_marital_id (marital_id),
+    INDEX idx_hrmemp_bank_id (bank_id),
+    INDEX idx_hrmemp_emp_role_id (emp_role_id),
+);
+-- 28
+CREATE TABLE hrm_employee_verify (
+    verify_id INT PRIMARY KEY IDENTITY(1,1),
+    employee_id INT NOT NULL,
+    ver_image VARCHAR(64),
+    user_id_verify INT NOT NULL,
+    ver_created_date INT,
+    is_actived INT DEFAULT 0,
+    INDEX idx_hrm_empver_employee_id (employee_id),
+    INDEX idx_hrm_empver_user_id_verify (user_id_verify),
+);
+
+-- #45
+CREATE TABLE config_icon (
+    [idx_key] VARCHAR(128) PRIMARY KEY NOT NULL,
+    [description] NVARCHAR(255) NOT NULL,
+    [url] VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE hrm_attendance (
+    attendance_id INT PRIMARY KEY IDENTITY(1,1),
+    employee_id INT NOT NULL,                       -- Khóa ngoại tham chiếu hrm_employee
+    checkin_time INT NULL,                          -- Epoch time hoặc INT biểu diễn timestamp
+    checkout_time INT NULL,                         -- Epoch time hoặc INT biểu diễn timestamp
+    work_date INT NULL,                             -- Ngày làm việc (ví dụ: 20251111)
+    total_working_minutes INT NULL,                 -- Tổng phút làm việc
+    attendance_status INT NULL,                     -- 0: vắng, 1: có mặt, 2: đi trễ, ...
+
+    CONSTRAINT fk_hrm_attendance_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES hrm_employee(employee_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_hrm_attendance_employee_id (employee_id),
+    INDEX idx_hrm_attendance_work_date (work_date)
+);
+GO
+SELECT * FROM sys.tables WHERE name='hrm_employee'
+CREATE TABLE hrm_attendance_his (
+    att_his_id INT PRIMARY KEY IDENTITY(1,1),
+    attendance_id INT NOT NULL,                -- Khóa ngoại tham chiếu hrm_attendance
+    action_type NVARCHAR(64) NOT NULL,         -- Loại hành động (vd: CheckIn, CheckOut, Update, Delete)
+    action_time INT NOT NULL,                  -- Thời điểm thực hiện (epoch time hoặc INT)
+    action_by NVARCHAR(128) NULL,              -- Người thực hiện hành động
+    old_checkin_time INT NULL,                 -- Giá trị cũ (nếu có)
+    old_checkout_time INT NULL,
+    new_checkin_time INT NULL,                 -- Giá trị mới (nếu có)
+    new_checkout_time INT NULL,
+    note NVARCHAR(512) NULL,                   -- Ghi chú
+    created_date INT NOT NULL,                 -- Ngày tạo bản ghi lịch sử (ví dụ: 20251113)
+    is_actived INT DEFAULT 1,                  -- 1: đang dùng, 0: hủy
+
+    CONSTRAINT fk_hrm_attendance_his_attendance
+        FOREIGN KEY (attendance_id)
+        REFERENCES hrm_attendance(attendance_id)
+        ON DELETE CASCADE,
+
+    INDEX idx_hrm_att_his_attendance_id (attendance_id),
+    INDEX idx_hrm_att_his_action_time (action_time)
+);
+GO
+
