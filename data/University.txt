@@ -1,0 +1,106 @@
+-- Tạo database
+CREATE DATABASE UniversityERP;
+GO
+USE UniversityERP;
+GO
+
+-- ===== USER =====
+CREATE TABLE [User] (
+    Id INT IDENTITY PRIMARY KEY,
+    Username VARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    FullName NVARCHAR(150),
+    Email VARCHAR(150),
+    Role VARCHAR(50)
+);
+
+-- ===== CLASS =====
+CREATE TABLE Class (
+    Id INT IDENTITY PRIMARY KEY,
+    ClassCode VARCHAR(50) NOT NULL UNIQUE,
+    ClassName NVARCHAR(150) NOT NULL,
+    AcademicYear VARCHAR(20),
+    Department NVARCHAR(100),
+    AdvisorId INT NULL
+);
+
+-- ===== STUDENT =====
+CREATE TABLE Student (
+    Id INT IDENTITY PRIMARY KEY,
+    StudentCode VARCHAR(50) NOT NULL UNIQUE,
+    FullName NVARCHAR(150) NOT NULL,
+    Email VARCHAR(150),
+    PhoneNumber VARCHAR(20),
+    UserId INT NOT NULL,
+    ClassId INT NULL,
+
+    CONSTRAINT FK_Student_User FOREIGN KEY (UserId) REFERENCES [User](Id),
+    CONSTRAINT FK_Student_Class FOREIGN KEY (ClassId) REFERENCES Class(Id)
+);
+
+-- ===== LECTURER =====
+CREATE TABLE Lecturer (
+    Id INT IDENTITY PRIMARY KEY,
+    LecturerCode VARCHAR(50) NOT NULL UNIQUE,
+    FullName NVARCHAR(150) NOT NULL,
+    Email VARCHAR(150),
+    Degree NVARCHAR(100),
+    UserId INT NOT NULL,
+
+    CONSTRAINT FK_Lecturer_User FOREIGN KEY (UserId) REFERENCES [User](Id)
+);
+
+-- ===== SUBJECT =====
+CREATE TABLE Subject (
+    Id INT IDENTITY PRIMARY KEY,
+    SubjectCode VARCHAR(50) NOT NULL UNIQUE,
+    SubjectName NVARCHAR(150) NOT NULL,
+    Credits INT NOT NULL,
+    Description NVARCHAR(500),
+    PrerequisiteId INT NULL,
+
+    CONSTRAINT FK_Subject_Prerequisite FOREIGN KEY (PrerequisiteId) REFERENCES Subject(Id)
+);
+
+-- ===== COURSE REGISTRATION =====
+CREATE TABLE CourseRegistration (
+    Id INT IDENTITY PRIMARY KEY,
+    StudentId INT NOT NULL,
+    SubjectId INT NOT NULL,
+    Semester VARCHAR(20),
+    AcademicYear VARCHAR(20),
+    Status VARCHAR(20),
+    RegistrationDate DATE,
+
+    CONSTRAINT FK_Course_Student FOREIGN KEY (StudentId) REFERENCES Student(Id),
+    CONSTRAINT FK_Course_Subject FOREIGN KEY (SubjectId) REFERENCES Subject(Id)
+);
+
+-- ===== LECTURER - SUBJECT ASSIGNMENT =====
+CREATE TABLE LecturerSubject (
+    Id INT IDENTITY PRIMARY KEY,
+    LecturerId INT NOT NULL,
+    SubjectId INT NOT NULL,
+    Semester VARCHAR(20),
+    AcademicYear VARCHAR(20),
+
+    CONSTRAINT FK_LS_Lecturer FOREIGN KEY (LecturerId) REFERENCES Lecturer(Id),
+    CONSTRAINT FK_LS_Subject FOREIGN KEY (SubjectId) REFERENCES Subject(Id)
+);
+
+-- ===== GRADE =====
+CREATE TABLE Grade (
+    Id INT IDENTITY PRIMARY KEY,
+    StudentId INT NOT NULL,
+    SubjectId INT NOT NULL,
+    Semester VARCHAR(20),
+    AcademicYear VARCHAR(20),
+    ProcessScore DECIMAL(5,2),
+    MidtermScore DECIMAL(5,2),
+    FinalScore DECIMAL(5,2),
+    TotalScore DECIMAL(5,2),
+    LetterGrade VARCHAR(5),
+
+    CONSTRAINT FK_Grade_Student FOREIGN KEY (StudentId) REFERENCES Student(Id),
+    CONSTRAINT FK_Grade_Subject FOREIGN KEY (SubjectId) REFERENCES Subject(Id)
+);
