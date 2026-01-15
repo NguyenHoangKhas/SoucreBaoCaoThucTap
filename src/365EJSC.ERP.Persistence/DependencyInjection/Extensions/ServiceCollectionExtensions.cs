@@ -3,11 +3,13 @@ using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql;
 using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.Auth;
 using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.Base;
 using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.Define;
+using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.University;
 using _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.HRM;
 using _365EJSC.ERP.Persistence.Repositories.Auth;
 using _365EJSC.ERP.Persistence.Repositories.Base;
 using _365EJSC.ERP.Persistence.Repositories.Define;
 using _365EJSC.ERP.Persistence.Repositories.HRM;
+using _365EJSC.ERP.Persistence.Repositories.University;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,8 +63,16 @@ namespace _365EJSC.ERP.Persistence.DependencyInjection.Extensions
             services.AddScoped<IHrmAttendanceHisSqlRepository, AttendanceHisSqlRepository>();
             #endregion
 
-            services.AddScoped<IAuthenticationSqlRepository, AuthenticationSqlRepository>();
-
+            #region University
+            services.AddScoped<IUserSqlRepository, UserSqlRepository>();
+            services.AddScoped<ILecturerSubjectSqlRepository, LecturerSubjectSqlRepository>();
+            services.AddScoped<ISubjectSqlRepository, SubjectSqlRepository>();
+            services.AddScoped<IStudentSqlRepository, StudentSqlRepository>();
+            services.AddScoped<IClassSqlRepository, ClassSqlRepository>();
+            services.AddScoped<ICourseRegistrationSqlRepository, CourseRegistrationSqlRepository>();
+            services.AddScoped<ILecturerSqlRepository, LecturerSqlRepository>();
+            services.AddScoped<IGradeSqlRepository, GradeSqlRepository>();
+            #endregion
             return services;
         }
     }

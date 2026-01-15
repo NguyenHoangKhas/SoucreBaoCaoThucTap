@@ -31,10 +31,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Url = serverUrl,
     });
-    options.DocInclusionPredicate((docName, apiDesc) =>
-    {
-        return apiDesc.RelativePath?.StartsWith("v1/hrm/") == true;
-    });
+    // B? DocInclusionPredicate ?? hi?n th? t?t c? APIs
 });
 var serviceName = "365EJSC API ERP";
 //register controllers

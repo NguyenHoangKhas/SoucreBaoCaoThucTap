@@ -3,7 +3,7 @@ using _365EJSC.ERP.Domain.Entities.University;
 
 namespace _365EJSC.ERP.Domain.Abstractions.Repositories.Sql.University
 {
-    public interface ÌGradeSqlRepository : IGenericSqlRepository<Grade, int>
+    public interface IGradeSqlRepository : IGenericSqlRepository<Grade, int>
     {
     }
 }

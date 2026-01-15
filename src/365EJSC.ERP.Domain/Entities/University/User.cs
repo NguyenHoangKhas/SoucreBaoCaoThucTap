@@ -33,11 +33,6 @@ namespace _365EJSC.ERP.Domain.Entities.University
         /// </summary>
         public string? Role { get; set; }
 
-        /// <summary>
-        /// Employee object if user is an employee
-        /// </summary>
-        [JsonIgnore]
-        public Employee? EmployeeInfo { get; set; }
 
         /// <summary>
         /// Student object if user is a student

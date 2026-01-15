@@ -1231,6 +1231,306 @@ namespace _365EJSC.ERP.Contract.Enumerations
 
         #endregion
 
+        #region Student msg codes
+
+        /// <summary>
+        /// Student with id provided was not found
+        /// </summary>
+        ERR_STUDENT_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Student request is invalid
+        /// </summary>
+        ERR_STUDENT_INVALID,
+
+        /// <summary>
+        /// Student code already exists
+        /// </summary>
+        ERR_STUDENT_CODE_EXISTED,
+
+        /// <summary>
+        /// Student user id not found
+        /// </summary>
+        ERR_STUDENT_USER_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Class id of student not found
+        /// </summary>
+        ERR_STUDENT_CLASS_ID_NOT_FOUND,
+
+        #endregion
+
+        #region Subject msg codes
+
+        /// <summary>
+        /// Subject with id provided was not found
+        /// </summary>
+        ERR_SUBJECT_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Subject request is invalid
+        /// </summary>
+        ERR_SUBJECT_INVALID,
+
+        /// <summary>
+        /// Subject code already exists
+        /// </summary>
+        ERR_SUBJECT_CODE_EXISTED,
+
+        /// <summary>
+        /// Prerequisite subject id not found
+        /// </summary>
+        ERR_SUBJECT_PREREQUISITE_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Prerequisite subject is invalid
+        /// </summary>
+        ERR_SUBJECT_PREREQUISITE_INVALID,
+
+        /// <summary>
+        /// Subject name already exists
+        /// </summary>
+        ERR_SUBJECT_NAME_EXISTED,
+
+        #endregion
+
+        #region LecturerSubject msg codes
+
+        /// <summary>
+        /// LecturerSubject with id provided was not found
+        /// </summary>
+        ERR_LECTURER_SUBJECT_ID_NOT_FOUND,
+
+        /// <summary>
+        /// LecturerSubject request is invalid
+        /// </summary>
+        ERR_LECTURER_SUBJECT_INVALID,
+
+        /// <summary>
+        /// Duplicate lecturer - subject - semester - academic year assignment
+        /// </summary>
+        ERR_LECTURER_SUBJECT_DUPLICATED,
+
+        /// <summary>
+        /// Lecturer with provided id was not found
+        /// </summary>
+        ERR_LECTURER_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Subject with provided id was not found
+        /// </summary>
+        ERR_SUBJECT_ID_NOT_FOUND_FOR_LECTURER_SUBJECT,
+
+        /// <summary>
+        /// Semester value is invalid
+        /// </summary>
+        ERR_LECTURER_SUBJECT_SEMESTER_INVALID,
+
+        /// <summary>
+        /// Academic year value is invalid
+        /// </summary>
+        ERR_LECTURER_SUBJECT_ACADEMIC_YEAR_INVALID,
+
+        /// <summary>
+        /// Cannot delete because related grades or registrations exist
+        /// </summary>
+        ERR_LECTURER_SUBJECT_CANNOT_DELETE,
+
+        #endregion
+
+        #region User msg codes
+
+        /// <summary>
+        /// User with provided id was not found
+        /// </summary>
+        ERR_USER_ID_NOT_FOUND,
+
+        /// <summary>
+        /// User with provided id already exists in database
+        /// </summary>
+        ERR_USER_ID_EXISTED,
+
+        /// <summary>
+        /// Username already exists in database
+        /// </summary>
+        ERR_USERNAME_EXISTED,
+
+        /// <summary>
+        /// Email already exists in database
+        /// </summary>
+        ERR_USER_EMAIL_EXISTED,
+
+        /// <summary>
+        /// Login username or password is incorrect
+        /// </summary>
+        ERR_USER_LOGIN_INVALID,
+
+        /// <summary>
+        /// User role is invalid
+        /// </summary>
+        ERR_USER_ROLE_INVALID,
+
+        /// <summary>
+        /// User account is locked or disabled
+        /// </summary>
+        ERR_USER_ACCOUNT_LOCKED,
+
+        #endregion
+
+
+        #region Lecturer msg codes
+
+
+        /// <summary>
+        /// Lecturer request data is invalid
+        /// </summary>
+        ERR_LECTURER_INVALID,
+
+        /// <summary>
+        /// Lecturer with this lecturer code already exists
+        /// </summary>
+        ERR_LECTURER_CODE_EXISTED,
+
+        /// <summary>
+        /// Lecturer email already exists in database
+        /// </summary>
+        ERR_LECTURER_EMAIL_EXISTED,
+
+        /// <summary>
+        /// Linked user with provided id was not found
+        /// </summary>
+        ERR_LECTURER_USER_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Cannot delete because this lecturer has assigned subjects
+        /// </summary>
+        ERR_LECTURER_HAS_ASSIGNED_SUBJECTS,
+
+        /// <summary>
+        /// Cannot delete because related grades exist
+        /// </summary>
+        ERR_LECTURER_HAS_RELATED_GRADES,
+
+        #endregion
+
+        #region Grade msg codes
+
+        /// <summary>
+        /// Grade with id provided was not found
+        /// </summary>
+        ERR_GRADE_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Grade request data is invalid
+        /// </summary>
+        ERR_GRADE_INVALID,
+
+        /// <summary>
+        /// Grade record already exists for this student, subject, semester and academic year
+        /// </summary>
+        ERR_GRADE_EXISTED,
+
+        /// <summary>
+        /// Student with provided id was not found
+        /// </summary>
+        ERR_GRADE_STUDENT_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Subject with provided id was not found
+        /// </summary>
+        ERR_GRADE_SUBJECT_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Score value is out of allowed range
+        /// </summary>
+        ERR_GRADE_SCORE_OUT_OF_RANGE,
+
+        /// <summary>
+        /// Cannot delete grade due to academic process constraints
+        /// </summary>
+        ERR_GRADE_CANNOT_DELETE,
+
+        #endregion
+
+        #region CourseRegistration msg codes
+
+        /// <summary>
+        /// Course registration with provided id was not found
+        /// </summary>
+        ERR_COURSE_REGISTRATION_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Course registration already exists for this student, subject, semester and academic year
+        /// </summary>
+        ERR_COURSE_REGISTRATION_EXISTED,
+
+        /// <summary>
+        /// Student with provided id was not found
+        /// </summary>
+        ERR_COURSE_REGISTRATION_STUDENT_NOT_FOUND,
+
+        /// <summary>
+        /// Subject with provided id was not found
+        /// </summary>
+        ERR_COURSE_REGISTRATION_SUBJECT_NOT_FOUND,
+
+        /// <summary>
+        /// Registration data is invalid
+        /// </summary>
+        ERR_COURSE_REGISTRATION_INVALID,
+
+        /// <summary>
+        /// Registration deadline has passed
+        /// </summary>
+        ERR_COURSE_REGISTRATION_EXPIRED,
+
+        /// <summary>
+        /// Invalid registration status value
+        /// </summary>
+        ERR_COURSE_REGISTRATION_STATUS_INVALID,
+
+        /// <summary>
+        /// Cannot cancel registration due to academic process constraints
+        /// </summary>
+        ERR_COURSE_REGISTRATION_CANNOT_CANCEL,
+
+        #endregion
+
+        #region Class msg codes
+
+        /// <summary>
+        /// Class with provided id was not found
+        /// </summary>
+        ERR_CLASS_ID_NOT_FOUND,
+
+        /// <summary>
+        /// Class with provided id already exists in database
+        /// </summary>
+        ERR_CLASS_ID_EXISTED,
+
+        /// <summary>
+        /// Class code already exists in database
+        /// </summary>
+        ERR_CLASS_CODE_EXISTED,
+
+        /// <summary>
+        /// Advisor lecturer with provided id was not found
+        /// </summary>
+        ERR_CLASS_ADVISOR_NOT_FOUND,
+
+        /// <summary>
+        /// Cannot delete class because students are still assigned
+        /// </summary>
+        ERR_CLASS_HAS_STUDENTS,
+
+        /// <summary>
+        /// Academic year value is invalid
+        /// </summary>
+        ERR_CLASS_ACADEMIC_YEAR_INVALID,
+
+        #endregion
+
+
 
         #region PartnerCatalog msg codes
 

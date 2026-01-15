@@ -31,5 +31,15 @@ namespace _365EJSC.ERP.Presentation.Constants
         internal const string WEB_LOCAL_WARDS_V2_ROUTE = "/define/WebLocalWardsV2";
         #endregion
 
+        #region University
+        internal const string USER_ROUTE = "/university/User";
+        internal const string STUDENT_ROUTE = "/university/Student";
+        internal const string LECTURER_ROUTE = "/university/Lecturer";
+        internal const string CLASS_ROUTE = "/university/Class";
+        internal const string SUBJECT_ROUTE = "/university/Subject";
+        internal const string COURSE_REGISTRATION_ROUTE = "/university/CourseRegistration";
+        internal const string GRADE_ROUTE = "/university/Grade";
+        internal const string LECTURER_SUBJECT_ROUTE = "/university/LecturerSubject";
+        #endregion
     }
 }
